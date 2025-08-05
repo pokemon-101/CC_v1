@@ -1,6 +1,13 @@
 // Spotify OAuth configuration
-const SPOTIFY_CLIENT_ID = import.meta.env?.VITE_SPOTIFY_CLIENT_ID || ''
-const SPOTIFY_REDIRECT_URI = import.meta.env?.VITE_SPOTIFY_REDIRECT_URI || ''
+const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID || ''
+const SPOTIFY_REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI || ''
+
+// Debug logging
+console.log('Spotify Config Debug:', {
+  clientId: SPOTIFY_CLIENT_ID,
+  redirectUri: SPOTIFY_REDIRECT_URI,
+  env: import.meta.env
+})
 const SPOTIFY_SCOPES = [
   'user-read-private',
   'user-read-email',
@@ -50,6 +57,18 @@ export class SpotifyAuthService {
 
   // Initiate Spotify OAuth flow
   async initiateAuth(): Promise<void> {
+    // Get fresh environment variables
+    const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID
+    const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI
+    
+    console.log('Auth Debug:', { clientId, redirectUri })
+    
+    if (!clientId || !redirectUri) {
+      console.error('Missing Spotify configuration:', { clientId, redirectUri })
+      alert('Spotify configuration is missing. Please check environment variables.')
+      return
+    }
+
     const state = generateRandomString(16)
     this.codeVerifier = generateCodeVerifier()
     const codeChallenge = await generateCodeChallenge(this.codeVerifier)
@@ -60,15 +79,16 @@ export class SpotifyAuthService {
 
     const params = new URLSearchParams({
       response_type: 'code',
-      client_id: SPOTIFY_CLIENT_ID,
+      client_id: clientId,
       scope: SPOTIFY_SCOPES,
-      redirect_uri: SPOTIFY_REDIRECT_URI,
+      redirect_uri: redirectUri,
       state: state,
       code_challenge_method: 'S256',
       code_challenge: codeChallenge,
     })
 
     const authUrl = `https://accounts.spotify.com/authorize?${params.toString()}`
+    console.log('Generated auth URL:', authUrl)
     window.location.href = authUrl
   }
 
