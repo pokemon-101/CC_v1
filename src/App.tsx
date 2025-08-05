@@ -18,14 +18,22 @@ function App() {
 
   // Check if this is a Spotify callback
   const isSpotifyCallback = window.location.pathname === '/callback/spotify' || 
-                           window.location.search.includes('code=')
+                           (window.location.search.includes('code=') && window.location.search.includes('state='))
+  
+  // Debug logging
+  console.log('App Debug:', {
+    pathname: window.location.pathname,
+    search: window.location.search,
+    isSpotifyCallback,
+    currentPage
+  })
 
   const renderPage = () => {
     // Handle Spotify callback
     if (isSpotifyCallback) {
       return <SpotifyCallback onComplete={() => {
         // Clear URL parameters and redirect to link-account page
-        window.history.replaceState({}, document.title, window.location.pathname.split('?')[0])
+        window.history.replaceState({}, document.title, '/')
         setCurrentPage('link-account')
       }} />
     }
