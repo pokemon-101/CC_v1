@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Music, Menu, X, User, LogOut, Settings, Home, Users, List } from 'lucide-react'
+import { Music, Menu, X, User, LogOut, Home, List } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 
 interface HeaderProps {
@@ -15,9 +15,7 @@ export function Header({ currentPage, onPageChange, onAuthClick }: HeaderProps) 
   const navItems = user ? [
     { id: 'dashboard', name: 'Dashboard', icon: Home },
     { id: 'playlists', name: 'Playlists', icon: List },
-    { id: 'friends', name: 'Friends', icon: Users },
     { id: 'profile', name: 'Profile', icon: User },
-    { id: 'link-account', name: 'Link Accounts', icon: Settings },
   ] : [
     { id: 'home', name: 'Home', icon: Home },
     { id: 'features', name: 'Features', icon: List },

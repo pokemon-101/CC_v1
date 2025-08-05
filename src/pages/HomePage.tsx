@@ -1,37 +1,39 @@
 import { useState, useEffect } from 'react'
-import { Music, Users, Zap, Shield } from 'lucide-react'
+import { Music, Link, Shuffle, UserPlus } from 'lucide-react'
 
 interface HomePageProps {
   onGetStarted: () => void
+  onPageChange?: (page: string) => void
 }
 
-export function HomePage({ onGetStarted }: HomePageProps) {
+export function HomePage({ onGetStarted, onPageChange }: HomePageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     setIsLoaded(true)
   }, [])
 
-  const features = [
+  const mainFeatures = [
     {
-      icon: Music,
-      title: 'Cross-Platform Sync',
-      description: 'Seamlessly sync your playlists between Spotify and Apple Music'
+      icon: Link,
+      title: 'Link Accounts',
+      description: 'Connect your Spotify and Apple Music accounts in one secure place',
+      action: 'Link Now',
+      onClick: () => onPageChange?.('link-account')
     },
     {
-      icon: Users,
-      title: 'Social Sharing',
-      description: 'Share your favorite tracks and discover new music with friends'
+      icon: Shuffle,
+      title: 'Sync Playlists',
+      description: 'Automatically sync your playlists across all connected platforms',
+      action: 'Start Sync',
+      onClick: () => onGetStarted()
     },
     {
-      icon: Zap,
-      title: 'Real-time Updates',
-      description: 'Get instant notifications when friends add new music'
-    },
-    {
-      icon: Shield,
-      title: 'Secure & Private',
-      description: 'Your music data is encrypted and never shared without permission'
+      icon: UserPlus,
+      title: 'Add Friends',
+      description: 'Connect with friends and share your favorite music discoveries',
+      action: 'Find Friends',
+      onClick: () => onGetStarted()
     }
   ]
 
@@ -52,48 +54,51 @@ export function HomePage({ onGetStarted }: HomePageProps) {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
                 onClick={onGetStarted}
-                className="bg-green-500 text-white px-8 py-4 rounded-lg text-lg hover:bg-green-600 transition-colors transform hover:scale-105"
+                className="bg-green-500 text-white px-12 py-4 rounded-lg text-lg hover:bg-green-600 transition-colors transform hover:scale-105"
               >
-                Get Started Free
-              </button>
-              <button className="border border-white text-white px-8 py-4 rounded-lg text-lg hover:bg-white hover:text-gray-900 transition-colors transform hover:scale-105">
-                Watch Demo
+                Start Your Journey
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Main Features Section */}
       <section id="features" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Why Choose ChordCircle?
+              Get Started in 3 Simple Steps
             </h2>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Experience the future of music sharing with our cutting-edge platform
+              Connect, sync, and share your music with friends across all platforms
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+          <div className="grid md:grid-cols-3 gap-8">
+            {mainFeatures.map((feature, index) => (
               <div
                 key={feature.title}
-                className={`glass rounded-2xl p-6 text-center hover:scale-105 transition-all duration-500 opacity-0 translate-y-8 ${
+                className={`glass rounded-2xl p-8 text-center hover:scale-105 transition-all duration-500 opacity-0 translate-y-8 ${
                   isLoaded ? 'animate-fade-in-up' : ''
                 }`}
-                style={{ animationDelay: `${index * 100}ms` }}
+                style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <feature.icon className="w-8 h-8 text-white" />
+                <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <feature.icon className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">
+                <h3 className="text-2xl font-bold text-white mb-4">
                   {feature.title}
                 </h3>
-                <p className="text-gray-300">
+                <p className="text-gray-300 mb-6 text-lg">
                   {feature.description}
                 </p>
+                <button 
+                  onClick={feature.onClick}
+                  className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors transform hover:scale-105 font-semibold"
+                >
+                  {feature.action}
+                </button>
               </div>
             ))}
           </div>
@@ -112,12 +117,14 @@ export function HomePage({ onGetStarted }: HomePageProps) {
             <p className="text-xl text-gray-300 mb-8">
               Join thousands of music lovers who have already connected their accounts
             </p>
-            <button 
-              onClick={onGetStarted}
-              className="bg-green-500 text-white px-12 py-4 rounded-lg text-lg hover:bg-green-600 transition-colors transform hover:scale-105"
-            >
-              Start Your Journey
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button 
+                onClick={onGetStarted}
+                className="bg-green-500 text-white px-12 py-4 rounded-lg text-lg hover:bg-green-600 transition-colors transform hover:scale-105"
+              >
+                Start Your Journey
+              </button>
+            </div>
           </div>
         </div>
       </section>

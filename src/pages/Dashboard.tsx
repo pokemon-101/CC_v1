@@ -8,40 +8,15 @@ export function Dashboard() {
   const [recentTracks, setRecentTracks] = useState<Track[]>([])
 
   useEffect(() => {
-    // Mock recent tracks data
-    setRecentTracks([
-      {
-        id: '1',
-        name: 'Blinding Lights',
-        artist: 'The Weeknd',
-        album: 'After Hours',
-        duration: 200,
-        image: 'https://via.placeholder.com/60x60/1DB954/ffffff?text=BL'
-      },
-      {
-        id: '2',
-        name: 'Watermelon Sugar',
-        artist: 'Harry Styles',
-        album: 'Fine Line',
-        duration: 174,
-        image: 'https://via.placeholder.com/60x60/1DB954/ffffff?text=WS'
-      },
-      {
-        id: '3',
-        name: 'Levitating',
-        artist: 'Dua Lipa',
-        album: 'Future Nostalgia',
-        duration: 203,
-        image: 'https://via.placeholder.com/60x60/1DB954/ffffff?text=LV'
-      }
-    ])
+    // TODO: Fetch real user data from API
+    setRecentTracks([])
   }, [])
 
   const stats = [
-    { label: 'Playlists', value: '12', icon: List, color: 'bg-blue-500' },
-    { label: 'Friends', value: '48', icon: Users, color: 'bg-green-500' },
-    { label: 'Tracks', value: '1,234', icon: Music, color: 'bg-purple-500' },
-    { label: 'Hours Listened', value: '156', icon: TrendingUp, color: 'bg-orange-500' },
+    { label: 'Playlists', value: '0', icon: List, color: 'bg-blue-500' },
+    { label: 'Friends', value: '0', icon: Users, color: 'bg-green-500' },
+    { label: 'Tracks', value: '0', icon: Music, color: 'bg-purple-500' },
+    { label: 'Hours Listened', value: '0', icon: TrendingUp, color: 'bg-orange-500' },
   ]
 
   return (
@@ -83,27 +58,35 @@ export function Dashboard() {
                 Recently Played
               </h2>
               <div className="space-y-4">
-                {recentTracks.map((track) => (
-                  <div key={track.id} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-colors">
-                    <img
-                      src={track.image}
-                      alt={track.name}
-                      className="w-12 h-12 rounded-lg"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white font-medium truncate">{track.name}</p>
-                      <p className="text-gray-300 text-sm truncate">{track.artist}</p>
+                {recentTracks.length > 0 ? (
+                  recentTracks.map((track) => (
+                    <div key={track.id} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-colors">
+                      <img
+                        src={track.image}
+                        alt={track.name}
+                        className="w-12 h-12 rounded-lg"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white font-medium truncate">{track.name}</p>
+                        <p className="text-gray-300 text-sm truncate">{track.artist}</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <button className="text-gray-400 hover:text-white transition-colors">
+                          <Heart className="w-4 h-4" />
+                        </button>
+                        <button className="text-gray-400 hover:text-green-500 transition-colors">
+                          <Play className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <button className="text-gray-400 hover:text-white transition-colors">
-                        <Heart className="w-4 h-4" />
-                      </button>
-                      <button className="text-gray-400 hover:text-green-500 transition-colors">
-                        <Play className="w-4 h-4" />
-                      </button>
-                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <Music className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-400">No recent tracks yet</p>
+                    <p className="text-gray-500 text-sm">Connect your music accounts to see your activity</p>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
@@ -131,34 +114,10 @@ export function Dashboard() {
             {/* Friend Activity */}
             <div className="glass rounded-xl p-6">
               <h2 className="text-xl font-bold text-white mb-4">Friend Activity</h2>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">J</span>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-white text-sm">John added 3 songs</p>
-                    <p className="text-gray-400 text-xs">2 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">S</span>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-white text-sm">Sarah created a playlist</p>
-                    <p className="text-gray-400 text-xs">5 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-bold">M</span>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-white text-sm">Mike liked your playlist</p>
-                    <p className="text-gray-400 text-xs">1 day ago</p>
-                  </div>
-                </div>
+              <div className="text-center py-6">
+                <Users className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-400">No friend activity yet</p>
+                <p className="text-gray-500 text-sm">Add friends to see their music activity</p>
               </div>
             </div>
           </div>

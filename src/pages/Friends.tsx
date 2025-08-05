@@ -17,33 +17,8 @@ export function Friends() {
   const [activeTab, setActiveTab] = useState<'friends' | 'discover'>('friends')
 
   useEffect(() => {
-    // Mock friends data
-    setFriends([
-      {
-        id: '1',
-        name: 'John Smith',
-        email: 'john@example.com',
-        isOnline: true,
-        recentActivity: 'Added 3 songs to "Road Trip Vibes"',
-        mutualFriends: 5
-      },
-      {
-        id: '2',
-        name: 'Sarah Johnson',
-        email: 'sarah@example.com',
-        isOnline: false,
-        recentActivity: 'Created playlist "Study Session"',
-        mutualFriends: 8
-      },
-      {
-        id: '3',
-        name: 'Mike Wilson',
-        email: 'mike@example.com',
-        isOnline: true,
-        recentActivity: 'Liked your playlist "Workout Mix"',
-        mutualFriends: 3
-      }
-    ])
+    // TODO: Fetch real friends from API
+    setFriends([])
   }, [])
 
   const filteredFriends = friends.filter(friend =>
@@ -51,29 +26,7 @@ export function Friends() {
     friend.email.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const suggestedFriends = [
-    {
-      id: '4',
-      name: 'Emma Davis',
-      email: 'emma@example.com',
-      mutualFriends: 12,
-      reason: 'Mutual friends with John and Sarah'
-    },
-    {
-      id: '5',
-      name: 'Alex Chen',
-      email: 'alex@example.com',
-      mutualFriends: 7,
-      reason: 'Similar music taste'
-    },
-    {
-      id: '6',
-      name: 'Lisa Brown',
-      email: 'lisa@example.com',
-      mutualFriends: 4,
-      reason: 'From your contacts'
-    }
-  ]
+  const suggestedFriends: any[] = []
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-green-900 pt-20 pb-8">
@@ -156,7 +109,7 @@ export function Friends() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-gray-300 text-sm">Shared Playlists</p>
-                    <p className="text-2xl font-bold text-white">12</p>
+                    <p className="text-2xl font-bold text-white">0</p>
                   </div>
                   <Music className="w-8 h-8 text-purple-500" />
                 </div>
@@ -232,37 +185,45 @@ export function Friends() {
             {/* Suggested Friends */}
             <div className="mb-8">
               <h2 className="text-xl font-bold text-white mb-6">People You May Know</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {suggestedFriends.map((person) => (
-                  <div key={person.id} className="glass rounded-xl p-6">
-                    <div className="text-center mb-4">
-                      <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <span className="text-white font-bold text-xl">
-                          {person.name.charAt(0)}
-                        </span>
+              {suggestedFriends.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {suggestedFriends.map((person) => (
+                    <div key={person.id} className="glass rounded-xl p-6">
+                      <div className="text-center mb-4">
+                        <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                          <span className="text-white font-bold text-xl">
+                            {person.name.charAt(0)}
+                          </span>
+                        </div>
+                        <h3 className="text-white font-bold">{person.name}</h3>
+                        <p className="text-gray-400 text-sm">{person.email}</p>
                       </div>
-                      <h3 className="text-white font-bold">{person.name}</h3>
-                      <p className="text-gray-400 text-sm">{person.email}</p>
-                    </div>
 
-                    <div className="text-center mb-4">
-                      <p className="text-gray-300 text-sm">{person.reason}</p>
-                      <p className="text-gray-500 text-xs mt-1">
-                        {person.mutualFriends} mutual friends
-                      </p>
-                    </div>
+                      <div className="text-center mb-4">
+                        <p className="text-gray-300 text-sm">{person.reason}</p>
+                        <p className="text-gray-500 text-xs mt-1">
+                          {person.mutualFriends} mutual friends
+                        </p>
+                      </div>
 
-                    <div className="flex space-x-2">
-                      <button className="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors">
-                        Add Friend
-                      </button>
-                      <button className="px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-600 hover:text-white transition-colors">
-                        View
-                      </button>
+                      <div className="flex space-x-2">
+                        <button className="flex-1 bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors">
+                          Add Friend
+                        </button>
+                        <button className="px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-600 hover:text-white transition-colors">
+                          View
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <UserPlus className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-400">No suggested friends at the moment</p>
+                  <p className="text-gray-500 text-sm">Check back later for friend suggestions</p>
+                </div>
+              )}
             </div>
           </div>
         )}

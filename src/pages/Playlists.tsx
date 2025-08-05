@@ -10,36 +10,8 @@ export function Playlists() {
   const [newPlaylistName, setNewPlaylistName] = useState('')
 
   useEffect(() => {
-    // Mock playlists data
-    setPlaylists([
-      {
-        id: '1',
-        name: 'My Favorites',
-        description: 'All my favorite songs in one place',
-        tracks: [],
-        owner: user!,
-        isPublic: true,
-        createdAt: '2025-01-01T00:00:00Z'
-      },
-      {
-        id: '2',
-        name: 'Workout Mix',
-        description: 'High energy songs for the gym',
-        tracks: [],
-        owner: user!,
-        isPublic: false,
-        createdAt: '2025-01-02T00:00:00Z'
-      },
-      {
-        id: '3',
-        name: 'Chill Vibes',
-        description: 'Relaxing music for studying',
-        tracks: [],
-        owner: user!,
-        isPublic: true,
-        createdAt: '2025-01-03T00:00:00Z'
-      }
-    ])
+    // TODO: Fetch real playlists from API
+    setPlaylists([])
   }, [user])
 
   const handleCreatePlaylist = () => {

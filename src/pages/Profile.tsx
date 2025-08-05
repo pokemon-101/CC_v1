@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { User, Edit, Settings, Music, Users, Calendar, Mail, MapPin, Link } from 'lucide-react'
+import { Edit, Settings, Music, Users, Calendar, Mail, MapPin, Link } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 
 export function Profile() {
@@ -8,9 +8,9 @@ export function Profile() {
   const [profileData, setProfileData] = useState({
     name: user?.name || '',
     email: user?.email || '',
-    bio: 'Music lover and playlist curator. Always discovering new sounds!',
-    location: 'San Francisco, CA',
-    website: 'https://mymusic.blog'
+    bio: '',
+    location: '',
+    website: ''
   })
 
   const handleSave = () => {
@@ -19,38 +19,13 @@ export function Profile() {
   }
 
   const stats = [
-    { label: 'Playlists Created', value: '24', icon: Music },
-    { label: 'Friends', value: '156', icon: Users },
-    { label: 'Songs Shared', value: '1,234', icon: Music },
-    { label: 'Days Active', value: '89', icon: Calendar },
+    { label: 'Playlists Created', value: '0', icon: Music },
+    { label: 'Friends', value: '0', icon: Users },
+    { label: 'Songs Shared', value: '0', icon: Music },
+    { label: 'Days Active', value: '0', icon: Calendar },
   ]
 
-  const recentActivity = [
-    {
-      id: '1',
-      action: 'Created playlist "Summer Vibes 2025"',
-      time: '2 hours ago',
-      type: 'playlist'
-    },
-    {
-      id: '2',
-      action: 'Added 5 songs to "Workout Mix"',
-      time: '1 day ago',
-      type: 'music'
-    },
-    {
-      id: '3',
-      action: 'Connected with Sarah Johnson',
-      time: '3 days ago',
-      type: 'friend'
-    },
-    {
-      id: '4',
-      action: 'Shared "Chill Beats" with 12 friends',
-      time: '1 week ago',
-      type: 'share'
-    }
-  ]
+  const recentActivity: any[] = []
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-green-900 pt-20 pb-8">
@@ -146,7 +121,7 @@ export function Profile() {
                     </div>
                     <div className="flex items-center space-x-1">
                       <Calendar className="w-4 h-4" />
-                      <span>Joined January 2025</span>
+                      <span>Member since {new Date().getFullYear()}</span>
                     </div>
                   </div>
                 </div>
@@ -174,24 +149,32 @@ export function Profile() {
             <div className="glass rounded-xl p-6">
               <h2 className="text-xl font-bold text-white mb-6">Recent Activity</h2>
               <div className="space-y-4">
-                {recentActivity.map((activity) => (
-                  <div key={activity.id} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-colors">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      activity.type === 'playlist' ? 'bg-green-500' :
-                      activity.type === 'music' ? 'bg-purple-500' :
-                      activity.type === 'friend' ? 'bg-blue-500' : 'bg-orange-500'
-                    }`}>
-                      {activity.type === 'playlist' && <Music className="w-5 h-5 text-white" />}
-                      {activity.type === 'music' && <Music className="w-5 h-5 text-white" />}
-                      {activity.type === 'friend' && <Users className="w-5 h-5 text-white" />}
-                      {activity.type === 'share' && <Link className="w-5 h-5 text-white" />}
+                {recentActivity.length > 0 ? (
+                  recentActivity.map((activity) => (
+                    <div key={activity.id} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-white/5 transition-colors">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        activity.type === 'playlist' ? 'bg-green-500' :
+                        activity.type === 'music' ? 'bg-purple-500' :
+                        activity.type === 'friend' ? 'bg-blue-500' : 'bg-orange-500'
+                      }`}>
+                        {activity.type === 'playlist' && <Music className="w-5 h-5 text-white" />}
+                        {activity.type === 'music' && <Music className="w-5 h-5 text-white" />}
+                        {activity.type === 'friend' && <Users className="w-5 h-5 text-white" />}
+                        {activity.type === 'share' && <Link className="w-5 h-5 text-white" />}
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-white">{activity.action}</p>
+                        <p className="text-gray-400 text-sm">{activity.time}</p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-white">{activity.action}</p>
-                      <p className="text-gray-400 text-sm">{activity.time}</p>
-                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-400">No recent activity</p>
+                    <p className="text-gray-500 text-sm">Start using ChordCircle to see your activity here</p>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
