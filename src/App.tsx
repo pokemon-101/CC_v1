@@ -13,11 +13,18 @@ import { SpotifyCallback } from './pages/SpotifyCallback'
 
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home')
+  const [currentPage, setCurrentPage] = useState(() => {
+    // Initialize page based on URL
+    if (window.location.pathname === '/callback/spotify') {
+      return 'spotify-callback'
+    }
+    return 'home'
+  })
   const [authModalOpen, setAuthModalOpen] = useState(false)
 
   // Check if this is a Spotify callback
-  const isSpotifyCallback = window.location.pathname === '/callback/spotify' || 
+  const isSpotifyCallback = currentPage === 'spotify-callback' || 
+                           window.location.pathname === '/callback/spotify' || 
                            (window.location.search.includes('code=') && window.location.search.includes('state='))
   
   // Debug logging
@@ -52,6 +59,11 @@ function App() {
           onBack={() => setCurrentPage('home')} 
           onAuthClick={() => setAuthModalOpen(true)}
         />
+      case 'spotify-callback':
+        return <SpotifyCallback onComplete={() => {
+          window.history.replaceState({}, document.title, '/')
+          setCurrentPage('link-account')
+        }} />
       default:
         return <HomePage 
           onGetStarted={() => setAuthModalOpen(true)}
